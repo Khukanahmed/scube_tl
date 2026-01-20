@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:scube_tl/core/colors/app_colors.dart';
 import 'package:scube_tl/core/image_path/img_path.dart';
+import 'package:scube_tl/feature/home/view/sconde_screen.dart';
 import 'package:scube_tl/feature/home/widget/temp_widget.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,31 +19,36 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             //  mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: AppColors.primaryColor,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '2nd Page Navigate',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => SecondPage());
+                },
+                child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.primaryColor,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '2nd Page Navigate',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      color: Colors.white,
-                      size: 18,
-                    ),
-                  ],
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                        size: 18,
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 10),
