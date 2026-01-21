@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:scube_tl/feature/home/view/home_screen.dart';
+import 'package:scube_tl/feature/auth/view/login_screen.dart';
 
 class SplashScreenController extends GetxController {
   @override
@@ -12,7 +12,7 @@ class SplashScreenController extends GetxController {
     await Future.delayed(Duration(seconds: 2));
 
     {
-      Get.offAll(() => HomeScreen());
+      Get.offAll(() => LoginScreen());
     }
   }
 }

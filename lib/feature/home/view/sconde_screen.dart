@@ -1,20 +1,16 @@
 import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:scube_tl/feature/home/controller/home_controller.dart';
+import 'package:scube_tl/feature/home/view/first_screen.dart';
 
-class SecondPage extends StatefulWidget {
+class SecondPage extends StatelessWidget {
   const SecondPage({super.key});
 
   @override
-  State<SecondPage> createState() => _SecondPageState();
-}
-
-class _SecondPageState extends State<SecondPage> {
-  int _selectedTab = 0;
-  int _selectedSourceLoad = 0;
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(HomeController());
+
     return Scaffold(
       backgroundColor: const Color(0xFFE8F4F8),
       appBar: AppBar(
@@ -22,7 +18,9 @@ class _SecondPageState extends State<SecondPage> {
         elevation: 1,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+          onPressed: () {
+            Get.back();
+          },
         ),
         title: const Text(
           '2nd Page',
@@ -63,25 +61,24 @@ class _SecondPageState extends State<SecondPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              // Navigate Button
               Container(
                 width: double.infinity,
                 height: 50,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    colors: [Color(0xFF00B8E6), Color(0xFF00D4FF)],
-                  ),
+                  color: Colors.cyan,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Material(
                   color: Colors.transparent,
                   child: InkWell(
                     borderRadius: BorderRadius.circular(12),
-                    onTap: () {},
+                    onTap: () {
+                      Get.offAll(() => FirstScreen());
+                    },
                     child: const Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             '1st Page Navigate',
@@ -107,7 +104,7 @@ class _SecondPageState extends State<SecondPage> {
                   borderRadius: BorderRadius.circular(20),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: Colors.black.withValues(alpha: 0.1),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),
@@ -125,12 +122,14 @@ class _SecondPageState extends State<SecondPage> {
                           ),
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          _buildTab('Summery', 0),
-                          _buildTab('SLD', 1),
-                          _buildTab('Data', 2),
-                        ],
+                      child: Obx(
+                        () => Row(
+                          children: [
+                            _buildTab(controller, 'Summery', 0),
+                            _buildTab(controller, 'SLD', 1),
+                            _buildTab(controller, 'Data', 2),
+                          ],
+                        ),
                       ),
                     ),
 
@@ -184,17 +183,23 @@ class _SecondPageState extends State<SecondPage> {
                           const SizedBox(height: 30),
 
                           // Source/Load Toggle
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFE8E8E8),
-                              borderRadius: BorderRadius.circular(25),
-                            ),
-                            child: Row(
-                              children: [
-                                _buildSourceLoadButton('Source', 0),
-                                _buildSourceLoadButton('Load', 1),
-                              ],
+                          Obx(
+                            () => Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFE8E8E8),
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              child: Row(
+                                children: [
+                                  _buildSourceLoadButton(
+                                    controller,
+                                    'Source',
+                                    0,
+                                  ),
+                                  _buildSourceLoadButton(controller, 'Load', 1),
+                                ],
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
@@ -204,7 +209,7 @@ class _SecondPageState extends State<SecondPage> {
                             'Data View',
                             '55505.63',
                             '58805.63',
-                            Icons.solar_power,
+                            "asset/images/solar-cell.png",
                             const Color(0xFF00A8E8),
                             'Active',
                             true,
@@ -214,7 +219,7 @@ class _SecondPageState extends State<SecondPage> {
                             'Data Type 2',
                             '55505.63',
                             '58805.63',
-                            Icons.battery_charging_full,
+                            "asset/images/battery.png",
                             const Color(0xFFFF9800),
                             'Active',
                             true,
@@ -224,7 +229,7 @@ class _SecondPageState extends State<SecondPage> {
                             'Data Type 3',
                             '55505.63',
                             '58805.63',
-                            Icons.electrical_services,
+                            "asset/images/power_icon.png",
                             const Color(0xFF00A8E8),
                             'Inactive',
                             false,
@@ -246,12 +251,30 @@ class _SecondPageState extends State<SecondPage> {
                 crossAxisSpacing: 12,
                 childAspectRatio: 2.5,
                 children: [
-                  _buildGridButton('Analysis Pro', Icons.analytics_outlined),
-                  _buildGridButton('G. Generator', Icons.power),
-                  _buildGridButton('Plant Summery', Icons.flash_on),
-                  _buildGridButton('Natural Gas', Icons.local_fire_department),
-                  _buildGridButton('D. Generator', Icons.power),
-                  _buildGridButton('Water Process', Icons.water_drop),
+                  _buildGridButton(
+                    'Analysis Pro',
+                    "asset/images/chart_490605.png",
+                  ),
+                  _buildGridButton(
+                    'G. Generator',
+                    "asset/images/generator_8789846.png",
+                  ),
+                  _buildGridButton(
+                    'Plant Summery',
+                    "asset/images/charge_7345374.png",
+                  ),
+                  _buildGridButton(
+                    'Natural Gas',
+                    "asset/images/fire_3900509.png",
+                  ),
+                  _buildGridButton(
+                    'D. Generator',
+                    "asset/images/generator_8789846.png",
+                  ),
+                  _buildGridButton(
+                    'Water Process',
+                    "asset/images/faucet_1078798.png",
+                  ),
                 ],
               ),
             ],
@@ -261,17 +284,18 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-  Widget _buildTab(String title, int index) {
-    final isSelected = _selectedTab == index;
+  Widget _buildTab(HomeController controller, String title, int index) {
+    final isSelected = controller.selectedTab.value == index;
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => _selectedTab = index),
+        onTap: () => controller.changeTab(index),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 16),
           decoration: BoxDecoration(
             color: isSelected ? const Color(0xFF0096FF) : Colors.transparent,
             borderRadius: BorderRadius.only(
               topLeft: index == 0 ? const Radius.circular(20) : Radius.zero,
+              topRight: index == 2 ? const Radius.circular(20) : Radius.zero,
             ),
           ),
           child: Text(
@@ -288,11 +312,15 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-  Widget _buildSourceLoadButton(String title, int index) {
-    final isSelected = _selectedSourceLoad == index;
+  Widget _buildSourceLoadButton(
+    HomeController controller,
+    String title,
+    int index,
+  ) {
+    final isSelected = controller.selectedSourceLoad.value == index;
     return Expanded(
       child: GestureDetector(
-        onTap: () => setState(() => _selectedSourceLoad = index),
+        onTap: () => controller.changeSourceLoad(index),
         child: Container(
           margin: const EdgeInsets.all(4),
           decoration: BoxDecoration(
@@ -318,7 +346,7 @@ class _SecondPageState extends State<SecondPage> {
     String title,
     String data1,
     String data2,
-    IconData icon,
+    String icon,
     Color color,
     String status,
     bool isActive,
@@ -331,7 +359,7 @@ class _SecondPageState extends State<SecondPage> {
           end: Alignment.bottomRight,
           colors: [
             const Color(0xFFE3F2FD),
-            const Color(0xFFBBDEFB).withOpacity(0.5),
+            const Color(0xFFBBDEFB).withValues(alpha: 0.5),
           ],
         ),
         borderRadius: BorderRadius.circular(16),
@@ -342,11 +370,8 @@ class _SecondPageState extends State<SecondPage> {
           Container(
             width: 50,
             height: 50,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(icon, color: color, size: 30),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+            child: Image.asset(icon, height: 30),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -408,7 +433,7 @@ class _SecondPageState extends State<SecondPage> {
     );
   }
 
-  Widget _buildGridButton(String title, IconData icon) {
+  Widget _buildGridButton(String title, String icon) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -416,7 +441,7 @@ class _SecondPageState extends State<SecondPage> {
         border: Border.all(color: const Color(0xFFE0E0E0), width: 1.5),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 5,
             offset: const Offset(0, 2),
           ),
@@ -438,7 +463,7 @@ class _SecondPageState extends State<SecondPage> {
                     color: const Color(0xFFFFF8E1),
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(icon, color: const Color(0xFFFF9800), size: 24),
+                  child: Image.asset(icon, height: 20, width: 20),
                 ),
                 const SizedBox(width: 10),
                 Expanded(

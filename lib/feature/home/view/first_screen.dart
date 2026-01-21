@@ -1,17 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:scube_tl/core/colors/app_colors.dart';
 import 'package:scube_tl/core/image_path/img_path.dart';
+import 'package:scube_tl/feature/home/controller/home_controller.dart';
 import 'package:scube_tl/feature/home/view/sconde_screen.dart';
 import 'package:scube_tl/feature/home/widget/temp_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class FirstScreen extends StatelessWidget {
+  FirstScreen({super.key});
+
+  final HomeController controller = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('1st Page'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('1st Page'),
+        centerTitle: true,
+        actions: [
+          Stack(
+            children: [
+              IconButton(
+                icon: const Icon(
+                  Icons.notifications_outlined,
+                  color: Colors.black,
+                ),
+                onPressed: () {},
+              ),
+              Positioned(
+                right: 12,
+                top: 12,
+                child: Container(
+                  width: 8,
+                  height: 8,
+                  decoration: const BoxDecoration(
+                    color: Colors.red,
+                    shape: BoxShape.circle,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
       backgroundColor: Color(0xffD9E4F1),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -28,7 +58,7 @@ class HomeScreen extends StatelessWidget {
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    color: AppColors.primaryColor,
+                    color: Colors.cyan,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -125,7 +155,11 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    const TemperatureModule(temperature: 20),
+                    Obx(
+                      () => TemperatureModule(
+                        temperature: controller.currentTemperature.value,
+                      ),
+                    ),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -175,10 +209,16 @@ class HomeScreen extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        "asset/images/cool_sun.png",
-                        height: 60,
-                        width: 60,
+                      child: Obx(
+                        () => Image.asset(
+                          controller.currentTemperature.value == 20
+                              ? "asset/images/night.png"
+                              : controller.currentTemperature.value == 30
+                              ? "asset/images/sun.png"
+                              : "asset/images/cool_sun.png",
+                          height: 60,
+                          width: 60,
+                        ),
                       ),
                     ),
                   ],
